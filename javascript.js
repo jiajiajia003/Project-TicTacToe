@@ -1,13 +1,17 @@
 function Cell() {
     let value = 0;
 
+    const resetCell = () => {
+        value = 0;
+    }
+
     const takeSpot = (player) => {
         value = player;
     }
 
     const getValue = () => value;
 
-    return {takeSpot, getValue};
+    return {takeSpot, getValue, resetCell};
 }
 
 function Gameboard () {
@@ -21,6 +25,14 @@ function Gameboard () {
             board[i].push(Cell());
         }
     }
+
+    const resetBoard = () => {
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < columns; j++) {
+                board[i][j].resetCell();
+            }
+        }
+    }
     
     const getBoard = () => board;
 
@@ -29,7 +41,7 @@ function Gameboard () {
         cell.takeSpot(player);
     }
 
-    return {getBoard, makeMove};
+    return {getBoard, makeMove, resetBoard};
 }
 
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
@@ -52,6 +64,11 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     const getLastMessage = () => lastMessage;
 
     const playRound = (row, column) => {
+        if (gameOver === true) {
+            board.resetBoard();
+            gameOver = false;
+            activePlayer = players[0];
+        }
         if (isMoveValid(row, column)) {
             board.makeMove(row, column, getActivePlayer().token);
 
