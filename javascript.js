@@ -1,17 +1,13 @@
 function Cell() {
     let value = 0;
 
-    const resetCell = () => {
-        value = 0;
-    }
-
     const takeSpot = (player) => {
         value = player;
     }
 
     const getValue = () => value;
 
-    return {takeSpot, getValue, resetCell};
+    return {takeSpot, getValue};
 }
 
 function Gameboard () {
@@ -19,17 +15,11 @@ function Gameboard () {
     const columns = 3;
     const board = [];
 
-    for (let i = 0; i < rows; i++) {
-        board[i] = [];
-        for (let j = 0; j < columns; j++) {
-            board[i].push(Cell());
-        }
-    }
-
     const resetBoard = () => {
         for (let i = 0; i < rows; i++) {
+            board[i] = [];
             for (let j = 0; j < columns; j++) {
-                board[i][j].resetCell();
+                board[i].push(Cell());
             }
         }
     }
@@ -46,16 +36,21 @@ function Gameboard () {
 
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
     const board = Gameboard();
-
+    let gameOver ;
+    let activePlayer;
+    let lastMessage;
     const players = [
         {name: playerOneName, token: 1},
         {name: playerTwoName, token: 2}
     ];
 
-    let gameOver = false;
-    let activePlayer = players[0];
-    let lastMessage= "";
-
+    const startNewGame = () => {
+        board.resetBoard();
+        gameOver = false;
+        activePlayer = players[0];
+        lastMessage = "";
+    }
+    
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
@@ -65,15 +60,16 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
     const playRound = (row, column) => {
         if (gameOver === true) {
-            board.resetBoard();
-            gameOver = false;
-            activePlayer = players[0];
+            startNewGame();            
         }
         if (isMoveValid(row, column)) {
             board.makeMove(row, column, getActivePlayer().token);
-
-            if (isWinning(row, column)) {
+            const curBoard = board.getBoard(); 
+            if (isWinning(curBoard, row, column)) {
                 lastMessage = `${getActivePlayer().name} wins!`;
+                gameOver = true;
+            } else if (isTie(curBoard)) {
+                lastMessage = "Game Ties"
                 gameOver = true;
             } else {
                 switchPlayerTurn();
@@ -84,8 +80,18 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         }
     }
 
-    const isWinning = (row, column) => {
-        const curBoard = board.getBoard();
+    const isTie = (curBoard) => {
+        for (let row of curBoard) {
+            for (let cell of row) {
+                if (cell.getValue() === 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    const isWinning = (curBoard, row, column) => {
         const winByRow = isThree(curBoard[row][0], curBoard[row][1], curBoard[row][2]);
         const winByColumn = isThree(curBoard[0][column], curBoard[1][column], curBoard[2][column]);
         let winByDiagonal1 = false;
@@ -111,11 +117,14 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         return moveIsValid = board.getBoard()[row][column].getValue() === 0 ? true : false;
     }
 
+    startNewGame();
+
     return {
         getActivePlayer, 
         playRound, 
         getBoard: board.getBoard,
-        getLastMessage
+        getLastMessage,
+        startNewGame
     }
 }
 
@@ -147,8 +156,11 @@ function ScreenController () {
             })
         })
     }
-
     
+    const resetScreen= () => {
+        game.startNewGame();
+        updateScreen();
+    }
 
     const clickHandleBoard = (event) => {
         const selectedColumn = parseInt(event.target.dataset.column);
@@ -161,6 +173,7 @@ function ScreenController () {
     }
 
     boardDiv.addEventListener('click', clickHandleBoard);
+    resetButton.addEventListener("click", resetScreen);
 
     updateScreen();
 }
