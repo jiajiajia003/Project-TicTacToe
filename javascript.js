@@ -1,5 +1,5 @@
 function Cell() {
-    let value = 0;
+    let value = "";
 
     const takeSpot = (player) => {
         value = player;
@@ -26,9 +26,9 @@ function Gameboard () {
     
     const getBoard = () => board;
 
-    const makeMove = (row, column, player) => {
+    const makeMove = (row, column, playerToken) => {
         const cell = board[row][column];
-        cell.takeSpot(player);
+        cell.takeSpot(playerToken);
     }
 
     return {getBoard, makeMove, resetBoard};
@@ -40,8 +40,8 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     let activePlayer;
     let lastMessage;
     const players = [
-        {name: playerOneName, token: 1},
-        {name: playerTwoName, token: 2}
+        {name: playerOneName, token: "X"},
+        {name: playerTwoName, token: "O"}
     ];
 
     const startNewGame = () => {
@@ -81,7 +81,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     const isTie = (curBoard) => {
         for (let row of curBoard) {
             for (let cell of row) {
-                if (cell.getValue() === 0) {
+                if (cell.getValue() === "") {
                     return false;
                 }
             }
@@ -112,7 +112,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
     const isMoveValid = (row, column) => {
         let moveIsValid;
-        return moveIsValid = board.getBoard()[row][column].getValue() === 0 ? true : false;
+        return moveIsValid = board.getBoard()[row][column].getValue() === "" ? true : false;
     }
 
     startNewGame();

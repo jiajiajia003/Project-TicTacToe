@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .board {
   display: grid;
   height: 500px;
@@ -12,6 +17,7 @@
   gap: 2px;
   padding: 2px;
   background-color: yellow;
+  margin: 20px;
 }
 
 .cell {
