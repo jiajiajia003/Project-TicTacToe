@@ -128,7 +128,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
 
 function ScreenController () {
-    const game = GameController();
+    let game;
     const playerTurnDiv = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
     const messageDiv = document.querySelector(".message");
@@ -170,6 +170,9 @@ function ScreenController () {
     }
     
     const resetScreen= () => {
+        let playerOneName;
+        let playerTwoName;
+        game = GameController(playerOneName, playerTwoName);
         game.startNewGame();
         hidePopup();
         updateScreen();
@@ -190,7 +193,7 @@ function ScreenController () {
         restartButton.addEventListener("click", resetScreen);
     })
 
-    updateScreen();
+    resetScreen();
 }
 
 ScreenController();
