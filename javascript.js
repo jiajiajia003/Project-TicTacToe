@@ -59,6 +59,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     const getLastMessage = () => lastMessage;
 
     const playRound = (row, column) => {
+        lastMessage = "";
         if (gameOver === true) {
             startNewGame();            
         }
@@ -73,10 +74,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
                 gameOver = true;
             } else {
                 switchPlayerTurn();
-                lastMessage = `${getActivePlayer().name} takes spot on row ${row}, column ${column}.`;
             }
-        } else {
-            lastMessage = "Spot is taken. Try again!";
         }
     }
 
@@ -134,7 +132,18 @@ function ScreenController () {
     const playerTurnDiv = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
     const messageDiv = document.querySelector(".message");
-    const resetButton = document.querySelector(".reset")
+    const restartButtons = document.querySelectorAll(".restart");
+    const popupDiv = document.querySelector(".popup");
+
+    const showPopup = () => {
+        popupDiv.style.display = "flex";
+        messageDiv.textContent = game.getLastMessage();
+    }
+
+    const hidePopup = () => {
+        popupDiv.style.display = "none";
+        messageDiv.textContent = "";
+    }
 
     const updateScreen = () => {
         boardDiv.textContent = "";
@@ -143,7 +152,6 @@ function ScreenController () {
         const activePlayer = game.getActivePlayer();
 
         playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
-        messageDiv.textContent = game.getLastMessage();
         
         board.forEach((row, rowIndex) => {
             row.forEach((cell, columnIndex) => {
@@ -155,10 +163,15 @@ function ScreenController () {
                 boardDiv.appendChild(cellButton);
             })
         })
+
+        if (game.getLastMessage().length) {
+            showPopup();
+        }
     }
     
     const resetScreen= () => {
         game.startNewGame();
+        hidePopup();
         updateScreen();
     }
 
@@ -173,7 +186,9 @@ function ScreenController () {
     }
 
     boardDiv.addEventListener('click', clickHandleBoard);
-    resetButton.addEventListener("click", resetScreen);
+    restartButtons.forEach(restartButton => {
+        restartButton.addEventListener("click", resetScreen);
+    })
 
     updateScreen();
 }

@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .board {
   display: grid;
   height: 500px;
@@ -19,4 +23,29 @@
   border: 1px solid grey;
   background: lightyellow;
   cursor: pointer;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    height: 100px;
+    width: 200px;
+    background-color: lightgray;
+    border: 1px solid black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.message {
+    align-self: center;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-around;
 }
