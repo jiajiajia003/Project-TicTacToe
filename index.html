@@ -4,35 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Tic Tac Toe</h1>
-        <div class="turn"></div>
-        <div class="board"></div>
-        <button class="restart">Restart Game</button>
-
-        <div class="popup" style="display: none;">
-            <div class="message"></div>
-            <button class="restart">Restart Game</button>
-        </div>
-        
-       <div class="formContainer" style="display: none;">
-            <form>
-                <div class="playerOne">
-                    <label for="playerOneName">Player one's name:</label>
-                    <input type="text" id="playerOneName">
-                </div>
-                <div class="playerTwo">
-                    <label for="playerTwoName">Player two's name:</label>
-                    <input type="text" id="playerTwoName">
-                </div>
-            </form>
-       </div>
-    </div>
-
+    <h1 class="status"></h1>
+    <button class="restart">Restart</button>
+    <div class="board"></div>
 
     <script src="javascript.js"></script>
 </body>

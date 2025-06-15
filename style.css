@@ -1,57 +1,21 @@
 * {
     box-sizing: border-box;
 }
-
-.container {
+body {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .board {
-  display: grid;
-  height: 500px;
-  width: 500px;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  border: 1px solid black;
-  gap: 2px;
-  padding: 2px;
-  background-color: yellow;
-  margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding:10px;
 }
 
 .cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 2rem;
-  border: 1px solid grey;
-  background: lightyellow;
-  cursor: pointer;
-}
-
-.popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    height: 100px;
-    width: 200px;
-    background-color: lightgray;
-    border: 1px solid black;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.message {
-    align-self: center;
-}
-
-.popup-buttons {
-    display: flex;
-    justify-content: space-around;
+    border-color: lightgray;
+    height: 80px;
+    width: 80px;
 }
