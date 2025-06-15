@@ -12,10 +12,18 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
     padding:10px;
+    margin: 15px;
 }
 
 .cell {
     border-color: lightgray;
     height: 80px;
     width: 80px;
+    font-size: xx-large;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background-color: red;
+    border: 1px solid black;
 }
